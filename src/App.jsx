@@ -1,34 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState } from "react";
+import TodoInput from "./TodoInput";
+import TodoList from "./TodoList";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [todos, setTodos] = useState([]);
+  const [todo, setTodo] = useState("");
+
+  const addTodo = () => {
+    if (todo !== "") {
+      setTodos([...todos, todo]);
+      setTodo("");
+    }
+  };
+  const deleteTodo = (text) => {
+    const newTodos = todos.filter((todo) => {
+      return todo !== text;
+    });
+    setTodos(newTodos);
+  };
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Todo List</h1>
+      <TodoInput todo={todo} setTodo = {setTodo} addTodo={addTodo}/>
+      <TodoList list={todos} remove={deleteTodo} />
     </div>
-  )
-}
+  );    
+};
 
-export default App
+export default App;
